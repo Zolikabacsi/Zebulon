@@ -2,9 +2,9 @@
 # -*- coding: utf-8 -*-
 
 """
-作者: [weego/WXAI-Team]
-版本: 0.4.7
-最后更新: 2025-11-05
+Author: [weego/WXAI-Team]
+Version: 0.4.7
+Last Updated: 2025-11-05
 """
 
 import asyncio
@@ -30,12 +30,12 @@ from mcp.client.sse import sse_client
 from mcp.client.stdio import stdio_client
 from openai.types.chat import ChatCompletionChunk
 
-__version__ = "0.4.7"  # 你可以根据需要设置版本号
+__version__ = "0.4.7"  # You can set the version number as needed
 
 
 # openai.langfuse_auth_check()
 
-# 1. 定义内存接口协议
+# 1. Define memory interface protocol
 class MemoryProtocol(Protocol):
     def store(self, data: str, user_id: str) -> Any:
         ...
@@ -45,26 +45,26 @@ class MemoryProtocol(Protocol):
 
 
 class ToolRegistry:
-    """集中管理工具注册表，避免全局变量"""
+    """Centralized tool registry management to avoid global variables"""
 
     def __init__(self):
-        self.function_mappings = {}  # 工具名称 -> 工具函数
-        self.function_info = {}  # 工具名称 -> 工具info信息
-        self.openai_function_schemas = []  # OpenAI 格式的工具描述
+        self.function_mappings = {}  # Tool name -> Tool function
+        self.function_info = {}  # Tool name -> Tool info
+        self.openai_function_schemas = []  # Tool descriptions in OpenAI format
 
     def register_tool(self, func: Callable) -> bool:
-        """注册单个工具"""
+        """Register a single tool"""
         if not hasattr(func, "tool_info"):
             return False
 
         tool_info = func.tool_info
         tool_name = tool_info["tool_name"]
 
-        # 注册到字典
+        # Register to dictionary
         self.function_info[tool_name] = tool_info
         self.function_mappings[tool_name] = func
 
-        # 构建 OpenAI 格式的工具描述
+        # Build OpenAI format tool descriptions
         tool_params_openai = {}
         tool_required = []
         for param in tool_info["tool_params"]:
@@ -92,7 +92,7 @@ class ToolRegistry:
         return True
 
     def register_tools(self, tools: List[Callable]) -> bool:
-        """批量注册工具"""
+        """Batch register tools"""
         success = True
         for func in tools:
             if not self.register_tool(func):
@@ -100,17 +100,17 @@ class ToolRegistry:
         return success
 
     def get_tools(self) -> List[Dict[str, Any]]:
-        """获取所有工具的描述（OpenAI 格式）"""
+        """Get all tool descriptions (OpenAI format)"""
         return deepcopy(self.openai_function_schemas)
 
     def get_tools_str(self) -> str:
-        """将工具描述转换为格式化的 JSON 字符串"""
+        """Convert tool descriptions to formatted JSON string"""
         return json.dumps(self.openai_function_schemas, indent=4, ensure_ascii=False)
 
     def filter_tools(self, tool_reflection_result: str) -> List[Dict]:
-        """根据内容过滤工具"""
+        """Filter tools based on content"""
         try:
-            # 安全解析可能包含 Markdown 代码块的 JSON
+            # Safely parse JSON that may contain Markdown code blocks
             refined_content = tool_reflection_result.strip()
             if refined_content.startswith('```json') and refined_content.endswith('```'):
                 refined_content = refined_content[7:-3].strip()
@@ -124,18 +124,18 @@ class ToolRegistry:
                    schema.get("function", {}).get("name", "").strip().lower() in valid_tools
             ]
         except (json.JSONDecodeError, KeyError, AttributeError) as e:
-            raise ValueError(f"工具过滤失败: {str(e)}") from e
+            raise ValueError(f"Tool filtering failed: {str(e)}") from e
 
 
 class ToolLoader:
-    """工具加载器，支持动态加载和缓存"""
+    """Tool loader supporting dynamic loading and caching"""
 
     def __init__(self, tools_directory: str = "tools"):
         self.tools_directory = tools_directory
         self.loaded_tools = {}
 
     def load_tool(self, tool_name: str) -> Callable:
-        """加载单个工具"""
+        """Load a single tool"""
         if tool_name in self.loaded_tools:
             return self.loaded_tools[tool_name]
 
@@ -143,12 +143,12 @@ class ToolLoader:
         if not os.path.exists(tool_path):
             raise FileNotFoundError(f"Tool '{tool_name}' not found in {tool_path}")
 
-        # 动态加载模块
+        # Dynamically load module
         spec = importlib.util.spec_from_file_location(tool_name, tool_path)
         module = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(module)
 
-        # 获取工具函数
+        # Get tool function
         if hasattr(module, tool_name):
             tool_func = getattr(module, tool_name)
             if callable(tool_func) and hasattr(tool_func, "tool_info"):
@@ -158,7 +158,7 @@ class ToolLoader:
         raise AttributeError(f"Tool '{tool_name}' is not properly defined in {tool_path}")
 
     def load_tools(self, tool_names: List[str]) -> Dict[str, Callable]:
-        """批量加载工具"""
+        """Batch load tools"""
         for tool_name in tool_names:
             if tool_name not in self.loaded_tools:
                 self.load_tool(tool_name)
@@ -166,17 +166,17 @@ class ToolLoader:
 
 
 class AsyncToolDispatcher:
-    """异步工具调度器"""
+    """Async tool dispatcher"""
 
     async def dispatch(self, tool_name: str, tool_params: Dict[str, Any]) -> Union[
         str, Generator[str, None, None], AsyncGenerator[str, None]]:
-        """调用工具执行，支持同步/异步工具及流式输出"""
+        """Call tool execution, supporting sync/async tools and streaming output"""
         if tool_name not in self.function_mappings:
             return f"Tool `{tool_name}` not found."
 
         tool_call = self.function_mappings[tool_name]
         try:
-            # 处理不同类型的工具
+            # Handle different types of tools
             if inspect.iscoroutinefunction(tool_call):
                 result = await tool_call(**tool_params)
             elif inspect.isasyncgenfunction(tool_call):
@@ -184,7 +184,7 @@ class AsyncToolDispatcher:
             else:
                 result = tool_call(**tool_params)
 
-            # 处理流式输出
+            # Handle streaming output
             if inspect.isasyncgen(result):
                 return self.async_stream_generator(result)
             elif inspect.isgenerator(result):
@@ -203,7 +203,7 @@ class AsyncToolDispatcher:
 
 
 class LoggerManager:
-    """集中管理日志系统"""
+    """Centralized log system management"""
 
     def __init__(self, name: str, debug: bool, log_level: str, log_file: Optional[str] = None):
         self.name = name
@@ -224,7 +224,7 @@ class LoggerManager:
             logger.addHandler(console_handler)
 
         if log_file:
-            # 确保 log 目录存在
+            # Ensure log directory exists
             log_dir = os.path.dirname(log_file)
             if log_dir and not os.path.exists(log_dir):
                 os.makedirs(log_dir)
@@ -236,7 +236,7 @@ class LoggerManager:
         return logger
 
     def log(self, level: str, action: str, data: Any):
-        """记录日志"""
+        """Log record"""
         if not self.debug:
             return
 
@@ -252,12 +252,12 @@ class LoggerManager:
             self.logger.error(safe_msg)
 
     def set_traceid(self, traceid: str):
-        """设置当前跟踪ID"""
+        """Set current trace ID"""
         self.traceid = traceid
 
 
 class MCPClientManager:
-    """增强版MCP客户端管理器"""
+    """Enhanced MCP client manager"""
 
     def __init__(self, config: dict, tool_registry: ToolRegistry):
         self.config = config
@@ -267,9 +267,9 @@ class MCPClientManager:
         self.server_sessions = {}
 
     async def _create_session(self, server_name: str, config: dict):
-        """创建并管理会话上下文"""
+        """Create and manage session context"""
         if 'url' in config:
-            # SSE 服务器连接
+            # SSE server connection
             streams_context = sse_client(
                 url=config['url'],
                 headers=config.get('headers', {})
@@ -278,7 +278,7 @@ class MCPClientManager:
             session_context = ClientSession(*streams)
             self.session = await self.exit_stack.enter_async_context(session_context)
         else:
-            # 标准输入输出服务器连接
+            # Standard I/O server connection
             server_params = StdioServerParameters(
                 command=config["command"],
                 args=config["args"],
@@ -293,12 +293,12 @@ class MCPClientManager:
         self.server_sessions[server_name] = self.session
 
     async def cleanup(self):
-        """清理所有会话资源"""
+        """Clean up all session resources"""
         await self.exit_stack.aclose()
         self.server_sessions.clear()
 
     async def register_mcp_tool(self) -> bool:
-        """自动注册所有MCP服务的工具"""
+        """Automatically register tools for all MCP services"""
         registered_count = 0
         enabled_servers = [
             (name, config)
@@ -314,7 +314,7 @@ class MCPClientManager:
 
                 for tool in tools_response.tools:
                     try:
-                        # 构建工具元数据
+                        # Build tool metadata
                         tool_info = {
                             "tool_name": tool.name,
                             "tool_description": tool.description,

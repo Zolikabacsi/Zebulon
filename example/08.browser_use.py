@@ -33,10 +33,10 @@ async def fetch_data_with_browser(task_description: str) -> str:
 # Define tool information within the function
 fetch_data_with_browser.tool_info = {
     "tool_name": "browser_data_fetcher",
-    "tool_title": "使用浏览器",
-    "tool_description": "对于无法通过其他工具直接访问的任务，使用浏览器获取文本数据或者文件的URL地址。",
+    "tool_title": "Use Browser",
+    "tool_description": "For tasks that cannot be directly accessed by other tools, use a browser to obtain text data or file URLs.",
     "tool_params": [
-        {"name": "task_description", "description": "浏览器要执行的任务的描述。", "type": "string", "required": True}
+        {"name": "task_description", "description": "Description of the task to be executed by the browser.", "type": "string", "required": True}
     ]
 }
 
