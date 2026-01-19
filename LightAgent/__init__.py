@@ -1,2 +1,2 @@
-# Use absolute imports
+# 使用绝对导入
 from .la_core import LightAgent, LightSwarm

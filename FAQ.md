@@ -1,58 +1,58 @@
-## Frequently Asked Questions
+## 可能遇到的问题
 
-Here are some questions users might encounter, for reference:
+以下是一些用户可能会遇到的问题，供参考：
 
-### 1. **What are the advantages of LightAgent compared to other Agent frameworks (e.g., LangChain, LlamaIndex)?**
-   - **Answer**: LightAgent's design philosophy is minimalism and efficiency, not relying on complex dependency libraries (like LangChain, LlamaIndex), making it suitable for rapid deployment and flexible expansion. At the same time, LightAgent has built-in memory modules, Tree of Thought, and multi-agent collaboration functions, which can better handle complex tasks. In addition, LightAgent supports multiple large models, and will soon launch streaming API and Agent evaluation functions, further enhancing its flexibility and practicality.
+### 1. **LightAgent 与其他 Agent 框架（如 LangChain、LlamaIndex）相比，有什么优势？**
+   - **回答**：LightAgent 的设计理念是极简和高效，不依赖复杂的依赖库（如 LangChain、LlamaIndex），适合快速部署和灵活扩展。同时，LightAgent 内置记忆模块、思维树和多智能体协同功能，能够更好地处理复杂任务。此外，LightAgent 支持多种大模型，并且即将推出流式 API 和 Agent 测评功能，进一步提升其灵活性和实用性。
 
-### 2. **Which large models does LightAgent support?**
-   - **Answer**: LightAgent is compatible with various large models, including OpenAI, Zhipu ChatGLM, Baichuan Large Model, DeepSeek, and Qwen series large models. Specifically supported models include, but are not limited to: `gpt-3.5-turbo`, `gpt-4`, `gpt-4o`, `gpt-4o-mini`, `DeepSeek-V2.5`, `DeepSeek-V3`, `qwen-plus`, etc. Users can choose the appropriate model for deployment based on their needs.
+### 2. **LightAgent 支持哪些大模型？**
+   - **回答**：LightAgent 兼容多种大模型，包括 OpenAI、智谱 ChatGLM、百川大模型、DeepSeek、Qwen 系列大模型。具体支持的模型包括但不限于：`gpt-3.5-turbo`、`gpt-4`、`gpt-4o`、`gpt-4o-mini`、`DeepSeek-V2.5`、`DeepSeek-V3`、`qwen-plus` 等。用户可以根据需求选择合适的模型进行部署。
 
-### 3. **How to customize tools and integrate them into LightAgent?**
-   - **Answer**: Users can define a Python function and pass it as a tool through the `tools` parameter. LightAgent supports automated tool generation and flexible expansion. Tools can be any Python function, supporting parameter type annotations and automatic generation of tool descriptions. Specific examples can be found in the tool integration section of the documentation.
+### 3. **如何自定义工具并集成到 LightAgent 中？**
+   - **回答**：用户可以通过定义一个 Python 函数，并通过 `tools` 参数传入工具。LightAgent 支持自动化工具生成，灵活扩展。工具可以是任意 Python 函数，支持参数类型注解和自动生成工具描述。具体示例可以参考文档中的工具集成部分。
 
-### 4. **How does LightAgent's memory module work?**
-   - **Answer**: LightAgent has a built-in `mem0` memory module that supports context memory and history management. Through the memory module, the Agent can maintain context consistency in multi-turn conversations. Users can enable the memory function by setting `memory=True` to maintain coherence in multi-turn conversations.
+### 4. **LightAgent 的记忆模块是如何工作的？**
+   - **回答**：LightAgent 内置 `mem0` 记忆模块，支持上下文记忆和历史记录管理。通过记忆模块，Agent 可以在多轮对话中保持上下文一致性。用户可以通过设置 `memory=True` 来启用记忆功能，从而在多轮对话中保持连贯性。
 
-### 5. **What is the role of the Tree of Thought (ToT) function?**
-   - **Answer**: The Tree of Thought module supports complex task decomposition and multi-step reasoning. Through the Tree of Thought, the Agent can better handle complex tasks and improve task completion efficiency. Users can enable the Tree of Thought function by setting `tree_of_thought=True` to make the Agent more intelligent when handling complex tasks.
+### 5. **思维树（ToT）功能有什么作用？**
+   - **回答**：思维树模块支持复杂任务分解和多步推理。通过思维树，Agent 可以更好地处理复杂任务，提升任务完成效率。用户可以通过设置 `tree_of_thought=True` 来启用思维树功能，从而让 Agent 在处理复杂任务时更加智能。
 
-### 6. **Does LightAgent support multi-agent collaboration?**
-   - **Answer**: Yes, LightAgent supports Swarm-like multi-agent collaborative work, where multiple Agents can collaborate to complete complex tasks. Users can use the `collaborate` method to enable multiple Agents to work together, thereby improving task processing efficiency.
+### 6. **LightAgent 是否支持多智能体协同？**
+   - **回答**：是的，LightAgent 支持类 Swarm 的多智能体协同工作，多个 Agent 可以协同完成复杂任务。用户可以通过 `collaborate` 方法让多个 Agent 协同工作，从而提升任务处理效率。
 
-### 7. **When will the streaming API feature be launched?**
-   - **Answer**: The streaming API feature is under development and is expected to be launched by the end of 2024. This feature will support OpenAI streaming API service output, seamlessly integrating with mainstream Chat frameworks, further enhancing the user experience.
+### 7. **流式 API 功能什么时候推出？**
+   - **回答**：流式 API 功能正在开发中，预计将在 2024 年底推出。该功能将支持 OpenAI 流格式 API 服务输出，无缝接入主流 Chat 框架，进一步提升用户体验。
 
-### 8. **How to evaluate LightAgent's performance?**
-   - **Answer**: We are developing a built-in Agent evaluation tool to facilitate users in evaluating and optimizing Agent performance. This feature is expected to be launched in early 2025. Users can use this tool to quantitatively evaluate the Agent's performance and optimize it accordingly.
+### 8. **如何评估 LightAgent 的性能？**
+   - **回答**：我们正在开发内置的 Agent 测评工具，方便用户评估和优化 Agent 性能。该功能预计将在 2025 年初推出，用户可以通过该工具对 Agent 的表现进行量化评估，并针对性地进行优化。
 
-### 9. **Is LightAgent open source?**
-   - **Answer**: Yes, LightAgent is open source under the Apache 2.0 license. Users can view and contribute code on GitHub. We welcome contributions in any form, including submitting Issues or Pull Requests, to jointly promote the development of LightAgent.
+### 9. **LightAgent 是否开源？**
+   - **回答**：是的，LightAgent 采用 Apache 2.0 许可证开源，用户可以在 GitHub 上查看和贡献代码。我们欢迎任何形式的贡献，包括提交 Issue 或 Pull Request，共同推动 LightAgent 的发展。
 
-### 10. **How to get technical support or provide feedback?**
-   - **Answer**: Users can submit issues through GitHub Issues, or send emails to service@wanxingai.com for technical support. We attach great importance to user feedback and will respond and solve problems as soon as possible.
-
----
-
-## Other Possible Questions
-
-### 11. **Does LightAgent support local deployment?**
-   - **Answer**: Yes, LightAgent supports local deployment. Users can deploy LightAgent in a local environment according to the guidelines in the documentation, and configure and extend it as needed.
-
-### 12. **Does LightAgent support multiple languages?**
-   - **Answer**: LightAgent currently mainly supports Chinese and English, but due to its compatibility with multiple large models, users can achieve multi-language processing by choosing models that support multiple languages. We plan to further expand multi-language support in the future.
-
-### 13. **Does LightAgent support custom models?**
-   - **Answer**: Yes, LightAgent supports custom models. Users can specify the use of custom models by configuring the `model` parameter, provided that the model complies with LightAgent's interface specifications.
-
-### 14. **Does LightAgent support multi-threading or multi-processing?**
-   - **Answer**: Yes, LightAgent supports multi-threading and multi-processing. Users can configure multi-threading or multi-processing during deployment as needed to improve task processing efficiency.
-
-### 15. **Does LightAgent support integration with other systems?**
-   - **Answer**: Yes, LightAgent supports integration with other systems. Users can integrate LightAgent into existing systems through API or SDK to achieve intelligent functional expansion.
+### 10. **如何获取技术支持或反馈问题？**
+   - **回答**：用户可以通过 GitHub Issues 提交问题，或发送邮件至 service@wanxingai.com 获取技术支持。我们非常重视用户的反馈，并将尽快响应和解决问题。
 
 ---
 
-## Summary
+## 其他可能的问题
 
-As a lightweight, flexible, and powerful proactive Agent framework, LightAgent aims to provide users with efficient and easy-to-use intelligent solutions. Whether it's intelligent customer service, data analysis, or automated tool generation, LightAgent can meet diverse needs. We look forward to working with developers to jointly promote the development of LightAgent and build a more intelligent future.
+### 11. **LightAgent 是否支持本地部署？**
+   - **回答**：是的，LightAgent 支持本地部署。用户可以根据文档中的指引，将 LightAgent 部署在本地环境中，并根据需求进行配置和扩展。
+
+### 12. **LightAgent 是否支持多语言？**
+   - **回答**：LightAgent 目前主要支持中文和英文，但由于其兼容多种大模型，用户可以通过选择支持多语言的模型来实现多语言处理。未来我们计划进一步扩展多语言支持。
+
+### 13. **LightAgent 是否支持自定义模型？**
+   - **回答**：是的，LightAgent 支持用户自定义模型。用户可以通过配置 `model` 参数来指定使用自定义模型，前提是该模型符合 LightAgent 的接口规范。
+
+### 14. **LightAgent 是否支持多线程或多进程？**
+   - **回答**：是的，LightAgent 支持多线程和多进程。用户可以根据需求在部署时配置多线程或多进程，以提升任务处理效率。
+
+### 15. **LightAgent 是否支持与其他系统的集成？**
+   - **回答**：是的，LightAgent 支持与其他系统的集成。用户可以通过 API 或 SDK 将 LightAgent 集成到现有系统中，实现智能化的功能扩展。
+
+---
+
+## 总结
+
+LightAgent 作为一个轻量、灵活、强大的主动式 Agent 框架，旨在为用户提供高效、易用的智能解决方案。无论是智能客服、数据分析，还是自动化工具生成，LightAgent 都能满足多样化的需求。我们期待与广大开发者共同推动 LightAgent 的发展，构建更加智能的未来。

@@ -1,4 +1,6 @@
 # Enable Memory Module
+
+# Or use a custom memory module, here is an example with mem0 https://github.com/mem0ai/mem0/
 from mem0 import Memory
 from LightAgent import LightAgent
 import os
@@ -13,7 +15,7 @@ class CustomMemory:
         config = {
             "version": "v1.1"
         }
-# Use qdrant as a vector database for storing memories in mem0, change config to the code below
+        # Use qdrant as a vector database for storing memories in mem0, change config to the code below
         # config = {
         #     "vector_store": {
         #         "provider": "qdrant",

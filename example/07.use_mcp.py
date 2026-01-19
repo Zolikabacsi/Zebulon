@@ -16,7 +16,7 @@ def read_mcp_settings():
     return mcp_settings_json
 
 
-# Access MCP service
+# 接入MCP 服务
 mcp_settings = read_mcp_settings()
 asyncio.run(agent.setup_mcp(mcp_setting=mcp_settings))
 
